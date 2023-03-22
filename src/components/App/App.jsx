@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { debounce } from "lodash";
 import { Tabs } from "antd";
 
-// eslint-disable-next-line import/no-unresolved
-import './app.css'
+import './App.css'
 import MovieList from '../MovieList/MovieList';
-import Footer from '../footer';
-import MovieService from '../../utilities/MovieService';
-// eslint-disable-next-line import/no-unresolved,no-unused-vars
-import Context from '../context/context';
-import Search from '../search/Search';
+import Footer from '../Footer';
+import MovieService from '../../Services/MovieService';
+import Context from '../Context/Context';
+import Search from '../Search/Search';
 import AlertAlarm from '../AlertAlarm';
 
 export default class App extends Component {
@@ -125,13 +123,13 @@ export default class App extends Component {
       this.setState({
         query: "",
       });
-      this.api.fetchAllRatedMovies(pageNumber).then(this.onMoviesLoaded).catch(this.onError);
+      this.api.getRatedMovies(pageNumber).then(this.onMoviesLoaded).catch(this.onError);
     } else if (query) {
-      const data = this.api.fetchSearchedMoviesAndRatingArrays(pageNumber, query);
-      this.api.getMoviesWithRating(data).then(this.onMoviesLoaded).catch(this.onError);
+      const data = this.api.getMovies(pageNumber, query);
+      this.api.rateMovie(data).then(this.onMoviesLoaded).catch(this.onError);
     } else if (!query) {
-      const data = this.api.fetchPopularMoviesAndRatingArrays(pageNumber);
-      this.api.getMoviesWithRating(data).then(this.onMoviesLoaded).catch(this.onError);
+      const data = this.api.getGenres(pageNumber);
+      this.api.rateMovie(data).then(this.onMoviesLoaded).catch(this.onError);
     }
   };
 
@@ -144,7 +142,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.api.createNewGuestSession();
+    this.api.createGuestSession();
     this.updateGenres();
     this.setState({
       loading: false,
@@ -192,7 +190,6 @@ export default class App extends Component {
             ) : null}
           </header>
           <div className="CardList">
-            {/* eslint-disable-next-line react/jsx-no-undef */}
             <Context.Provider value={genres}>
               <MovieList
                 moviesList={moviesList}

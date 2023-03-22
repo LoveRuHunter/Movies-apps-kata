@@ -4,8 +4,7 @@ import { Typography } from "antd";
 const { Text } = Typography;
 
 import './MovieGenre.css';
-// eslint-disable-next-line import/no-unresolved
-import Context from "../context/context";
+import Context from "../Context/Context";
 
 export default class MovieGenre extends Component {
     constructor(props) {

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Pagination } from "antd";
 
-// eslint-disable-next-line import/no-unresolved
-import './footer.css'
+import './Footer.css'
 
 export default class Footer extends Component {
   constructor(props) {

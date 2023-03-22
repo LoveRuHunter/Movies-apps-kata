@@ -5,7 +5,7 @@ import { parseISO, format } from "date-fns";
 import './MovieCard.css';
 import AlertAlarm from "../AlertAlarm";
 import MovieGenre from "../MovieGenre";
-import Rating from "../rating";
+import Rating from "../Rating";
 
 
 const { Title, Text, Paragraph } = Typography;
