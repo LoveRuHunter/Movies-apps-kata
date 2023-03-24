@@ -1,11 +1,12 @@
-// import PutLocalStorage from "./LocalStorage";
+import StorageService from "../Utilities/StorageService";
 
+const newLocalStorage = new StorageService();
+console.log()
 export default class MovieService {
   constructor() {
     this.apiBase = 'https://api.themoviedb.org/3';
     this._apiKey = 'a3faababb79b8280e302e01e68ba22df';
   }
-  // getLocalStorage = new PutLocalStorage()
 
   fetchNewSession = async () => {
     const query = `${this.apiBase}/authentication/guest_session/new?api_key=${this._apiKey}`;
@@ -18,21 +19,13 @@ export default class MovieService {
     return res.guest_session_id;
   };
   createNewSession = async () => {
-    if (JSON.parse(localStorage.getItem("sessionId"))) {
+    if (newLocalStorage.getLocalStorage("sessionId")) {
       return;
     }
 
     const newGuestSession = await this.fetchNewSession();
-    this.putLocalStorage(newGuestSession);
-
-    return JSON.parse(localStorage.getItem("sessionId"));
-  };
-   putLocalStorage = async (data) => {
-    try {
-      localStorage.setItem("sessionId", JSON.stringify(data));
-    } catch (e) {
-      throw Error(e);
-    }
+    newLocalStorage.putLocalStorage("sessionId", newGuestSession);
+    return newLocalStorage.getLocalStorage("sessionId");
   };
 
   rateMovie = (movieId, rating) => {
@@ -40,7 +33,7 @@ export default class MovieService {
       value: rating,
     };
 
-    let sessionId = JSON.parse(localStorage.getItem("sessionId"));
+    let sessionId = newLocalStorage.getLocalStorage("sessionId");
 
     if (!sessionId) {
       sessionId = this.createNewSession();
@@ -102,8 +95,7 @@ export default class MovieService {
   };
 
   getRatedMovies = async (page = 1) => {
-    let sessionId = JSON.parse(localStorage.getItem("sessionId"));
-
+    let sessionId = newLocalStorage.getLocalStorage("sessionId");
     if (!sessionId) {
       try {
         sessionId = await this.createNewSession();
