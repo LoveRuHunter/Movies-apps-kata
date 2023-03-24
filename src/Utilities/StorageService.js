@@ -6,14 +6,12 @@ class StorageService {
             throw Error(e);
         }
     }
-    getLocalStorage = () => {
+    getLocalStorage = (key) => {
         try {
-            return JSON.parse(localStorage.getItem("key"))
+            return JSON.parse(localStorage.getItem(key))
         } catch (e) {
             throw Error(e);
         }
     }
-
 }
-// const storageService = new StorageService
 export default StorageService

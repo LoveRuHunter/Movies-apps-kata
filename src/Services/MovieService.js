@@ -22,7 +22,6 @@ export default class MovieService {
     if (newLocalStorage.getLocalStorage("sessionId")) {
       return;
     }
-
     const newGuestSession = await this.fetchNewSession();
     newLocalStorage.putLocalStorage("sessionId", newGuestSession);
     return newLocalStorage.getLocalStorage("sessionId");
