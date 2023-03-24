@@ -123,13 +123,13 @@ export default class App extends Component {
       this.setState({
         query: "",
       });
-      this.api.getRatedMovies(pageNumber).then(this.onMoviesLoaded).catch(this.onError);
+      this.api.fetchAllRatedMovies(pageNumber).then(this.onMoviesLoaded).catch(this.onError);
     } else if (query) {
-      const data = this.api.getMovies(pageNumber, query);
-      this.api.rateMovie(data).then(this.onMoviesLoaded).catch(this.onError);
+      const data = this.api.fetchSearchedMovies(pageNumber, query);
+      this.api.getMoviesRating(data).then(this.onMoviesLoaded).catch(this.onError);
     } else if (!query) {
-      const data = this.api.getGenres(pageNumber);
-      this.api.rateMovie(data).then(this.onMoviesLoaded).catch(this.onError);
+      const data = this.api.fetchPopularMovies(pageNumber);
+      this.api.getMoviesRating(data).then(this.onMoviesLoaded).catch(this.onError);
     }
   };
 
@@ -142,7 +142,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    this.api.createGuestSession();
+    this.api.createNewSession();
     this.updateGenres();
     this.setState({
       loading: false,
